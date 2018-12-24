@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    depends_on:
+      - workout-mysql
+    image: wordpress:latest
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - "./wordpress_data:/var/www/html"
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: asterisco
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - "./MySqlData:/var/lib/mysql"
