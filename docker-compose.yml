@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.3'
 
 services:
 
@@ -8,21 +8,29 @@ services:
     image: wordpress:latest
     restart: always
     ports:
-      - "8080:80"
+      - ${IP}:8080:80
     volumes:
       - "./wordpress_data:/var/www/html"
+      - "./config/php.conf.uploads.ini:/usr/local/etc/php/conf.d/uploads.ini"   
     environment:
       WORDPRESS_DB_HOST: mysql:3306
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
 
   mysql:
     image: mysql:5.7
+    ports:
+      - ${IP}:3306:3306
+    command: [
+        '--default_authentication_plugin=mysql_native_password',
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci'
+    ]
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: asterisco
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: wordpress   # MYSQL_USER: wordpress MYSQL_PASSWORD: wordpress
     volumes:
       - "./MySqlData:/var/lib/mysql"
+
