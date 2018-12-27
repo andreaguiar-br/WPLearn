@@ -34,7 +34,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
-      MYSQL_DATABASE: wordpress   # MYSQL_USER: wordpress MYSQL_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress   
     volumes:
       - "./MySqlData:/var/lib/mysql"
 
